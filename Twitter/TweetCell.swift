@@ -16,21 +16,28 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     
+    var tweetID: Int!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    
+        // rounded edges on photo
+        avatarImageView.layer.cornerRadius = 5
+        avatarImageView.clipsToBounds = true
+    }
+    
+    
     var tweet: Tweet! {
         didSet {
             fullNameLabel.text = tweet.user?.name
             usernameLabel.text = tweet.user?.screenname
             descriptionLabel.text = tweet.text
             timestampLabel.text = tweet.createdAtString
+            tweetID = tweet.id
             
             if let imgUrl = tweet.user?.profileImageUrl {
                 avatarImageView.setImageWithURL(NSURL(string: imgUrl)!)
-//                print("could not get image url")
-            } else {
-                print("could not get image url")
-                
             }
-            
         }
     }
     
@@ -39,10 +46,14 @@ class TweetCell: UITableViewCell {
     
 
     @IBAction func onRetweet(sender: AnyObject) {
+        print("retweeting")
+        TwitterClient.sharedInstance.retweet(tweetID)
     }
     
     
     @IBAction func onLike(sender: AnyObject) {
+        print("favoriting")
+        TwitterClient.sharedInstance.favoriteTweet(tweetID)
     }
     
 }

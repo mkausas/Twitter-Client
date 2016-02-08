@@ -42,11 +42,6 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         return 0
     }
-
-
-    
-    
-
     
     @IBAction func onLogout(sender: AnyObject) {
         User.currentUser?.logout()
