@@ -29,9 +29,9 @@ class TwitterClient: BDBOAuth1SessionManager {
             print("user \(response)")
             let tweets = Tweet.tweetsWithArray(response as! [NSDictionary])
             
-//            for tweet in tweets {
-//                print("text: \(tweet.text)")
-//            }
+            for tweet in tweets {
+                print("text: \(tweet.text)")
+            }
 
             completion(tweets: tweets, error: nil)
             }, failure: { (operation, error) -> Void in
