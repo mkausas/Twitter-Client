@@ -15,6 +15,8 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
+    @IBOutlet weak var retweetCountLabel: UILabel!
+    @IBOutlet weak var favoriteCountLabel: UILabel!
     
     var tweetID: Int!
     
@@ -34,6 +36,9 @@ class TweetCell: UITableViewCell {
             descriptionLabel.text = tweet.text
             timestampLabel.text = tweet.createdAtString
             tweetID = tweet.id
+            retweetCountLabel.text = "\(tweet.retweetCount)"
+            favoriteCountLabel.text = "\(tweet.favoritedCount)"
+            
             
             if let imgUrl = tweet.user?.profileImageUrl {
                 avatarImageView.setImageWithURL(NSURL(string: imgUrl)!)
@@ -48,6 +53,7 @@ class TweetCell: UITableViewCell {
     @IBAction func onRetweet(sender: AnyObject) {
         print("retweeting")
         TwitterClient.sharedInstance.retweet(tweetID)
+        
     }
     
     

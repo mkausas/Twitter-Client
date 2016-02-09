@@ -14,7 +14,7 @@ let twitterConsumerSecret = "hEAejvx4rcaklBAx9sV1Kzl5r1U9KXuUsrCZGzg1XBJpsJVHtO"
 let twitterBaseURL = NSURL(string: "https://api.twitter.com")
 
 class TwitterClient: BDBOAuth1SessionManager {
-
+    
     var loginCompletion: ((user: User?, error: NSError?) -> ())?
     
     class var sharedInstance: TwitterClient {
@@ -32,7 +32,7 @@ class TwitterClient: BDBOAuth1SessionManager {
             for tweet in tweets {
                 print("text: \(tweet.text)")
             }
-
+            
             completion(tweets: tweets, error: nil)
             }, failure: { (operation, error) -> Void in
                 print("error getting the home timeline")
@@ -74,12 +74,10 @@ class TwitterClient: BDBOAuth1SessionManager {
                 print("user: \(user.name)")
                 
                 self.loginCompletion?(user: user, error: nil)
-            }, failure: { (operation, error) -> Void in
-                print("error getting the current user")
-                self.loginCompletion?(user: nil, error: error)
+                }, failure: { (operation, error) -> Void in
+                    print("error getting the current user")
+                    self.loginCompletion?(user: nil, error: error)
             })
-            
-
             
             
             }) { (error) -> Void in
@@ -90,7 +88,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     
     func retweet(id: Int) {
         POST("1.1/statuses/retweet/\(id).json", parameters: nil, success: { (operation, response) -> Void in
-                print("succesfully retweeted")
+            print("succesfully retweeted")
             
             }, failure: { (operation, error) -> Void in
                 print("error retweeting")
