@@ -18,6 +18,9 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var retweetCountLabel: UILabel!
     @IBOutlet weak var favoriteCountLabel: UILabel!
     
+    @IBOutlet weak var retweetButton: UIButton!
+    @IBOutlet weak var favoriteButton: UIButton!
+    
     var tweetID: Int!
     
     override func awakeFromNib() {
@@ -26,6 +29,8 @@ class TweetCell: UITableViewCell {
         // rounded edges on photo
         avatarImageView.layer.cornerRadius = 5
         avatarImageView.clipsToBounds = true
+        
+        
     }
     
     
@@ -39,6 +44,8 @@ class TweetCell: UITableViewCell {
             retweetCountLabel.text = "\(tweet.retweetCount)"
             favoriteCountLabel.text = "\(tweet.favoritedCount)"
             
+            let retweetedImageName = (tweet.retweeted != nil) ? "retweet-action" : "retweet-action-pressed"
+            retweetButton.setImage(UIImage(named: retweetedImageName), forState: .Normal)
             
             if let imgUrl = tweet.user?.profileImageUrl {
                 avatarImageView.setImageWithURL(NSURL(string: imgUrl)!)
@@ -53,7 +60,7 @@ class TweetCell: UITableViewCell {
     @IBAction func onRetweet(sender: AnyObject) {
         print("retweeting")
         TwitterClient.sharedInstance.retweet(tweetID)
-        
+        retweetButton.setImage(UIImage(named: "retweet-action-pressed"), forState: .Normal)
     }
     
     

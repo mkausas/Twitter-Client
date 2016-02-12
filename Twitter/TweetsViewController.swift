@@ -31,7 +31,6 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
     }
     
-    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell", forIndexPath: indexPath) as! TweetCell
         cell.tweet = tweets![indexPath.row]
@@ -49,6 +48,27 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBAction func onLogout(sender: AnyObject) {
         User.currentUser?.logout()
+        
+    }
+    
+    var selectedTweet: Tweet!
+    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        selectedTweet = tweets![indexPath.row]
+        print("happen")
+        
+        return indexPath
+    }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    // Get the new view controller using segue.destinationViewController.
+        print("second")
+        
+        if let dc = segue.destinationViewController as? TweetDetailViewController {
+            dc.tweet = selectedTweet            
+        }
         
     }
     

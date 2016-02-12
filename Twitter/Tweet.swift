@@ -37,9 +37,6 @@ class Tweet: NSObject {
         print("favorited count = \(favoritedCount)")
         print("favorited = \(favorited)")
         
-        
-        
-        
         let formatter = NSDateFormatter()
         formatter.dateFormat = "EEE MMM d GG HH:mm:ss Z y"
         createdAt = formatter.dateFromString(createdAtString!)
