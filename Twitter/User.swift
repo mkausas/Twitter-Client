@@ -7,17 +7,21 @@
 //
 
 import UIKit
+import SwiftString
+
 
 var _currentUser: User?
 let currentUserKey = "kCurrentUserKey"
 let userDidLoginNotification = "userDidLoginNotification"
 let userDidLogoutNotification = "userDidLogoutNotification"
 
+
 class User: NSObject {
 
     var name: String?
     var screenname: String?
     var profileImageUrl: String?
+    var backgroundImageUrl: String?
     var tagline: String?
     var dictionary: NSDictionary
     
@@ -26,7 +30,24 @@ class User: NSObject {
         name = dictionary["name"] as? String
         screenname = dictionary["screen_name"] as? String
         profileImageUrl = dictionary["profile_image_url"] as? String
+        backgroundImageUrl = dictionary["profile_background_image_url"] as? String
         tagline = dictionary["description"] as? String
+        
+        
+        if profileImageUrl?.containsString("_normal") == true { // 11
+            profileImageUrl = profileImageUrl?.stringByReplacingOccurrencesOfString("_normal", withString: "")
+            print("image url = \(profileImageUrl)")
+        }
+
+        if backgroundImageUrl?.containsString("_normal") == true { // 11
+            backgroundImageUrl = backgroundImageUrl?.stringByReplacingOccurrencesOfString("_normal", withString: "")
+            print("image url = \(backgroundImageUrl)")
+        }
+        
+    }
+    
+    func stringLength(string: String) -> Int {
+        return string.characters.count
     }
     
     func logout() {

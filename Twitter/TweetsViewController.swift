@@ -62,6 +62,16 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
+    @IBAction func onAvatarImagePress(sender: AnyObject) {
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview as! TweetCell
+        let indexPath = tableView.indexPathForCell(cell)
+        selectedTweet = tweets![indexPath!.row]
+    }
+    
+    
+    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -78,6 +88,12 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         else if let dc = dc as? CreateTweetViewController {
             dc.user = User.currentUser
         }
+        
+        else if let dc = dc as? ProfileViewController {
+            dc.user = selectedTweet.user
+        }
+        
+        
     }
     
 }

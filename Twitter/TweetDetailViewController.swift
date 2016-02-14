@@ -34,7 +34,7 @@ class TweetDetailViewController: UIViewController {
 
     func setupTweetView() {
         fullNameLabel.text = tweet.user?.name
-        usernameLabel.text = tweet.user?.screenname
+        usernameLabel.text = "@\((tweet.user?.screenname)!)"
         descriptionLabel.text = tweet.text
         timestampLabel.text = tweet.createdAtString
         tweetID = tweet.id

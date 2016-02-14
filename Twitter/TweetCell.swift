@@ -21,6 +21,9 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     
+    
+    @IBOutlet weak var testImageView: UIImageView!
+    
     var tweetID: Int!
     
     override func awakeFromNib() {
@@ -29,15 +32,12 @@ class TweetCell: UITableViewCell {
         // rounded edges on photo
         avatarImageView.layer.cornerRadius = 5
         avatarImageView.clipsToBounds = true
-        
-        
     }
-    
     
     var tweet: Tweet! {
         didSet {
             fullNameLabel.text = tweet.user?.name
-            usernameLabel.text = tweet.user?.screenname
+            usernameLabel.text = "@\((tweet.user?.screenname)!)"
             descriptionLabel.text = tweet.text
             timestampLabel.text = tweet.createdAtString
             tweetID = tweet.id
@@ -51,10 +51,13 @@ class TweetCell: UITableViewCell {
             favoriteButton.setImage(UIImage(named: favoritedImageName), forState: .Normal)
             
             if let imgUrl = tweet.user?.profileImageUrl {
+                
                 avatarImageView.setImageWithURL(NSURL(string: imgUrl)!)
             }
         }
     }
+    
+    
     
     @IBAction func onReply(sender: AnyObject) {
     }
