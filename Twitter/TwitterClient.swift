@@ -147,6 +147,19 @@ class TwitterClient: BDBOAuth1SessionManager {
         return tweet
     }
     
+    func getUser(id: Int) -> Tweet {
+        
+        var tweet: Tweet!
+        
+        GET("1.1/statuses/show.json", parameters: ["id", id], progress: { (progress) -> Void in
+            print("getting tweet")
+            }, success: { (session, object) -> Void in
+                tweet = object as! Tweet
+            }) { (dataTask, error) -> Void in
+                
+        }
+        return tweet
+    }
     
     
 }

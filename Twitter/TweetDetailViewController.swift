@@ -30,6 +30,10 @@ class TweetDetailViewController: UIViewController {
         super.viewDidLoad()
         
         setupTweetView()
+        
+        // rounded edges on photo
+        avatarImageView.layer.cornerRadius = 5
+        avatarImageView.clipsToBounds = true
     }
 
     func setupTweetView() {
@@ -83,14 +87,20 @@ class TweetDetailViewController: UIViewController {
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        let dc = segue.destinationViewController
+        
+        if let dc = dc as? ProfileViewController {
+            dc.user = tweet.user
+        }
+        
     }
-    */
+    
 
 }

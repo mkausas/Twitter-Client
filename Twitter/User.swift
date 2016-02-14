@@ -25,6 +25,11 @@ class User: NSObject {
     var tagline: String?
     var dictionary: NSDictionary
     
+    var tweet_count: Int?
+    var followers_count: Int?
+    var following_count: Int?
+    
+    
     init(dictionary: NSDictionary) {
         self.dictionary = dictionary
         name = dictionary["name"] as? String
@@ -32,14 +37,21 @@ class User: NSObject {
         profileImageUrl = dictionary["profile_image_url"] as? String
         backgroundImageUrl = dictionary["profile_background_image_url"] as? String
         tagline = dictionary["description"] as? String
+        tweet_count = dictionary["statuses_count"] as? Int
+        followers_count = dictionary["followers_count"] as? Int
+        following_count = dictionary["friends_count"] as? Int
         
         
-        if profileImageUrl?.containsString("_normal") == true { // 11
+        
+        
+        
+        // grab high quality image
+        if profileImageUrl?.containsString("_normal") == true {
             profileImageUrl = profileImageUrl?.stringByReplacingOccurrencesOfString("_normal", withString: "")
             print("image url = \(profileImageUrl)")
         }
 
-        if backgroundImageUrl?.containsString("_normal") == true { // 11
+        if backgroundImageUrl?.containsString("_normal") == true {
             backgroundImageUrl = backgroundImageUrl?.stringByReplacingOccurrencesOfString("_normal", withString: "")
             print("image url = \(backgroundImageUrl)")
         }

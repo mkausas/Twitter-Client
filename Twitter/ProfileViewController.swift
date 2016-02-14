@@ -39,7 +39,9 @@ class ProfileViewController: UIViewController {
         avatarImageView.setImageWithURL(NSURL(string: user.profileImageUrl!)!)
         backgroundImageView.setImageWithURL(NSURL(string: user.backgroundImageUrl!)!)
         
-        
+        tweetCountLabel.text = String(user.tweet_count!)
+        followingCountLabel.text = String(user.following_count!)
+        followersCountLabel.text = String(user.followers_count!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,7 +52,7 @@ class ProfileViewController: UIViewController {
     
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -58,6 +60,6 @@ class ProfileViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+    
 
 }
