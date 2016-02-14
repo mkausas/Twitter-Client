@@ -54,9 +54,12 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var selectedTweet: Tweet!
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
         selectedTweet = tweets![indexPath.row]
-        print("happen")
         
         return indexPath
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     // MARK: - Navigation
@@ -66,10 +69,15 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // Get the new view controller using segue.destinationViewController.
         print("second")
         
-        if let dc = segue.destinationViewController as? TweetDetailViewController {
+        let dc = segue.destinationViewController
+        
+        if let dc = dc as? TweetDetailViewController {
             dc.tweet = selectedTweet            
         }
         
+        else if let dc = dc as? CreateTweetViewController {
+            dc.user = User.currentUser
+        }
     }
     
 }

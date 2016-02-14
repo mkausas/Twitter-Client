@@ -9,17 +9,6 @@
 import UIKit
 
 class TweetDetailViewController: UIViewController {
-
-//    @IBOutlet weak var fullNameLabel: UILabel!
-//    @IBOutlet weak var usernameLabel: UILabel!
-//    @IBOutlet weak var avatarImageView: UIImageView!
-//    @IBOutlet weak var descriptionLabel: UILabel!
-//    @IBOutlet weak var timestampLabel: UILabel!
-//    @IBOutlet weak var retweetCountLabel: UILabel!
-//    @IBOutlet weak var favoriteCountLabel: UILabel!
-//    
-//    @IBOutlet weak var retweetButton: UIButton!
-//    @IBOutlet weak var favoriteButton: UIButton!
     
     @IBOutlet weak var fullNameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -63,6 +52,34 @@ class TweetDetailViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func onRetweet(sender: AnyObject) {
+        if tweet.retweeted == false {
+            TwitterClient.sharedInstance.retweet(tweetID)
+            retweetButton.setImage(UIImage(named: "retweet-action-pressed"), forState: .Normal)
+            retweetCountLabel.text = "\(tweet.retweetCount + 1)"
+        } else {
+            TwitterClient.sharedInstance.untweet(tweetID)
+            retweetButton.setImage(UIImage(named: "retweet-action"), forState: .Normal)
+            retweetCountLabel.text = "\(tweet.retweetCount)"
+        }
+        
+        tweet.retweeted = !tweet.retweeted
+    }
+    
+    @IBAction func onFavorite(sender: AnyObject) {
+        if tweet.favorited == false {
+            TwitterClient.sharedInstance.favoriteTweet(tweetID)
+            favoriteButton.setImage(UIImage(named: "like-action-pressed"), forState: .Normal)
+            favoriteCountLabel.text = "\(tweet.favoritedCount + 1)"
+        } else {
+            TwitterClient.sharedInstance.unFavoriteTweet(tweetID)
+            favoriteButton.setImage(UIImage(named: "like-action"), forState: .Normal)
+            favoriteCountLabel.text = "\(tweet.favoritedCount)"
+        }
+        
+        tweet.favorited = !tweet.favorited
     }
     
 

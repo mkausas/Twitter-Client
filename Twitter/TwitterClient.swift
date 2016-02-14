@@ -104,5 +104,49 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    func unFavoriteTweet(id: Int) {
+        POST("1.1/favorites/destroy.json", parameters: ["id": id], success: { (operation, response) -> Void in
+            print("succesfully unfavorited")
+            
+            }, failure: { (operation, error) -> Void in
+                print("error unfavoriting")
+        })
+    }
+    
+    
+    func tweet(status: String) {
+        POST("1.1/statuses/update.json", parameters: ["status": status], success: { (operation, response) -> Void in
+            print("succesfully tweeted")
+            
+            }, failure: { (operation, error) -> Void in
+                print("error tweeting")
+        })
+    }
+    
+    
+    func untweet(id: Int) {
+        POST("1.1/statuses/unretweet/\(id).json", parameters: nil,  success: { (operation, response) -> Void in
+            print("succesfully untweeted")
+            
+            }, failure: { (operation, error) -> Void in
+                print("error untweeting")
+        })
+    }
+    
+    func getTweet(id: Int) -> Tweet {
+        
+        var tweet: Tweet!
+        
+        GET("1.1/statuses/show.json", parameters: ["id", id], progress: { (progress) -> Void in
+            print("getting tweet")
+            }, success: { (session, object) -> Void in
+                tweet = object as! Tweet
+            }) { (dataTask, error) -> Void in
+                
+        }
+        return tweet
+    }
+    
+    
     
 }
