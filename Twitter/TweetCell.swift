@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftString
 
 class TweetCell: UITableViewCell {
 
@@ -21,18 +22,14 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     
+    @IBOutlet weak var retweetView: UIView!
+    @IBOutlet weak var retweetAuthor: UILabel!
     
-    @IBOutlet weak var testImageView: UIImageView!
+    @IBOutlet weak var buttonTopConstraint: NSLayoutConstraint!
     
     var tweetID: Int!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    
-        // rounded edges on photo
-        avatarImageView.layer.cornerRadius = 5
-        avatarImageView.clipsToBounds = true
-    }
+    var tweetText: String!
+    var retweetText: String!
     
     var tweet: Tweet! {
         didSet {
@@ -44,6 +41,13 @@ class TweetCell: UITableViewCell {
             retweetCountLabel.text = "\(tweet.retweetCount)"
             favoriteCountLabel.text = "\(tweet.favoritedCount)"
             
+            
+            if tweet.text?.contains("RT @") == true {
+                let split = tweet.text?.split(":")
+                descriptionLabel.text = split![1].trimmedLeft()
+//                print("split[0] = \(split![0]) & split[1] = \(split![1])")
+            }
+            
             let retweetedImageName = tweet.retweeted == false ? "retweet-action" : "retweet-action-pressed"
             retweetButton.setImage(UIImage(named: retweetedImageName), forState: .Normal)
 
@@ -54,9 +58,28 @@ class TweetCell: UITableViewCell {
                 
                 avatarImageView.setImageWithURL(NSURL(string: imgUrl)!)
             }
+            
+            if let retweet = tweet.retweeted_status {
+                retweetAuthor.text = "@\(retweet.user!.screenname!)"
+                
+            } else {
+                print("not retweeted!")
+                buttonTopConstraint.constant = 14
+                self.frame.size.height = frame.size.height - 10
+//                retweetView.frame.size.height = 0
+                retweetView.hidden = true
+            }
         }
     }
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        // rounded edges on photo
+        avatarImageView.layer.cornerRadius = 5
+        avatarImageView.clipsToBounds = true
+        
+    }
     
     
     @IBAction func onReply(sender: AnyObject) {

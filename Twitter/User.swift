@@ -41,19 +41,15 @@ class User: NSObject {
         followers_count = dictionary["followers_count"] as? Int
         following_count = dictionary["friends_count"] as? Int
         
-        
-        
-        
-        
         // grab high quality image
         if profileImageUrl?.containsString("_normal") == true {
             profileImageUrl = profileImageUrl?.stringByReplacingOccurrencesOfString("_normal", withString: "")
-            print("image url = \(profileImageUrl)")
+//            print("image url = \(profileImageUrl)")
         }
 
         if backgroundImageUrl?.containsString("_normal") == true {
             backgroundImageUrl = backgroundImageUrl?.stringByReplacingOccurrencesOfString("_normal", withString: "")
-            print("image url = \(backgroundImageUrl)")
+//            print("image url = \(backgroundImageUrl)")
         }
         
     }

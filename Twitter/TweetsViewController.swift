@@ -12,6 +12,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     @IBOutlet weak var tableView: UITableView!
     
+    
     var tweets: [Tweet]?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,14 +28,11 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: UIControlEvents.ValueChanged)
         tableView.insertSubview(refreshControl, atIndex: 0)
-
         
-        reloadTweets()
     }
     
     override func viewDidAppear(animated: Bool) {
         reloadTweets()
-        print("view did appear")
     }
     
     func reloadTweets() {
@@ -98,7 +96,6 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     // Get the new view controller using segue.destinationViewController.
-        print("second")
         
         let dc = segue.destinationViewController
         

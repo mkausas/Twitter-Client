@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if User.currentUser != nil {
             // go to the logged in screen
-            print("Current User detected \(User.currentUser?.name)")
+//            print("Current User detected \(User.currentUser?.name)")
             
             let vc = storyboard.instantiateViewControllerWithIdentifier("MainNavigationController") as!     UINavigationController
             

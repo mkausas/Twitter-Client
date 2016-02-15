@@ -47,7 +47,6 @@ class CreateTweetViewController: UIViewController, UITextViewDelegate {
     
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-        print(text)
         return charCount < 140 || text == ""
     }
     
