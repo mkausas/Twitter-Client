@@ -33,6 +33,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         tableView.rowHeight = 169
         
+        // Initialize a UIRefreshControl
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
+        
         // rounded edges on photo
         avatarImageView.layer.cornerRadius = 5
         avatarImageView.clipsToBounds = true
@@ -50,6 +55,15 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         followersCountLabel.text = String(user.followers_count!)
         
         reloadTimeline()
+    }
+    
+    
+    // Makes a network request to get updated data
+    // Updates the tableView with the new data
+    // Hides the RefreshControl
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        reloadTimeline()
+        refreshControl.endRefreshing()
     }
     
     func reloadTimeline() {
