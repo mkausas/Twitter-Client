@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -19,13 +19,19 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var followingCountLabel: UILabel!
     @IBOutlet weak var followersCountLabel: UILabel!
     
-    var user: User!
+    @IBOutlet weak var tableView: UITableView!
     
+    var user: User!
+    var tweets: [Tweet]!
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         setupView()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        tableView.rowHeight = 169
         
         // rounded edges on photo
         avatarImageView.layer.cornerRadius = 5
@@ -42,6 +48,15 @@ class ProfileViewController: UIViewController {
         tweetCountLabel.text = String(user.tweet_count!)
         followingCountLabel.text = String(user.following_count!)
         followersCountLabel.text = String(user.followers_count!)
+        
+        reloadTimeline()
+    }
+    
+    func reloadTimeline() {
+        TwitterClient.sharedInstance.userTimelineWithParams(["screen_name": user.screenname!]) { (tweets, error) -> () in
+            self.tweets = tweets
+            self.tableView.reloadData()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,8 +65,31 @@ class ProfileViewController: UIViewController {
     }
     
     
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let tweets = tweets {
+            return tweets.count
+        }
+        return 0
+    }
     
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell", forIndexPath: indexPath) as! TweetCell
+        
+        cell.tweet = tweets[indexPath.row]
+        return cell
+    }
 
+    var selectedTweet: Tweet!
+    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        selectedTweet = tweets![indexPath.row]
+        
+        return indexPath
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
     
     // MARK: - Navigation
 
@@ -59,7 +97,13 @@ class ProfileViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        let vc = segue.destinationViewController
+        if let vc = vc as? TweetDetailViewController {
+            vc.tweet = selectedTweet
+        }
     }
+    
     
 
 }
